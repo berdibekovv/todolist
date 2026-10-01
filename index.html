@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sodda Vazifalar Ilovasi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .todo-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 350px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .task-text {
+            flex: 1;
+        }
+        .completed .task-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="todo-container">
+    <h2>Mening Vazifalarim</h2>
+    <div class="input-area">
+        <input type="text" id="taskInput" placeholder="Yangi vazifa kiriting...">
+        <button onclick="addTask()">Qo‘shish</button>
+    </div>
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+    function addTask() {
+        const input = document.getElementById('taskInput');
+        const taskText = input.value.trim();
+        
+        if (taskText === '') {
+            alert('Iltimos, vazifa matnini kiriting!');
+            return;
+        }
+
+        const ul = document.getElementById('taskList');
+        const li = document.getElementById('li');
+        
+        // Yangi element yaratish
+        const newLi = document.createElement('li');
+        
+        // Vazifa matni qismi
+        const textSpan = document.createElement('span');
+        textSpan.className = 'task-text';
+        textSpan.innerText = taskText;
+        
+        // Bosilganda bajarilgan deb belgilash funksiyasi
+        textSpan.addEventListener('click', function() {
+            newLi.classList.toggle('completed');
+        });
+
+        // O‘chirish tugmasi
+        const deleteBtn = document.createElement('button');
+        deleteBtn.innerText = 'O‘chirish';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.onclick = function() {
+            ul.removeChild(newLi);
+        };
+
+        // Elementlarni yig‘ish
+        newLi.appendChild(textSpan);
+        newLi.appendChild(deleteBtn);
+        ul.appendChild(newLi);
+
+        // Kiritish maydonini tozalash
+        input.value = '';
+    }
+
+    // Input maydonida Enter tugmasi bosilganda ham qo‘shish
+    document.getElementById('taskInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            addTask();
+        }
+    });
+</script>
+
+</body>
+</html>
